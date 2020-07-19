@@ -1,0 +1,37 @@
+<div fxLayout="column" fxLayoutGap="1em" class="details">
+  <div fxlayout="row">
+    <a mat-raised-button routerLink="/days">Back</a>
+  </div>
+  <div
+    fxLayout="column"
+    fxLayoutGap="1em"
+    *ngIf="details$ | async as details; else none"
+  >
+    <ng-container *ngIf="details.breastFeedings?.length">
+      <h1>Breast Feedings</h1>
+      <app-breast-feedings
+        [date]="date"
+        [breastFeedings]="details.breastFeedings"
+      ></app-breast-feedings>
+    </ng-container>
+    <ng-container *ngIf="details.bottleFeedings?.length">
+      <h1>Bottle Feedings</h1>
+      <app-bottle-feedings
+        [date]="date"
+        [bottleFeedings]="details.bottleFeedings"
+      ></app-bottle-feedings>
+    </ng-container>
+    <ng-container *ngIf="details.diaperChanges?.length">
+      <h1>Diaper Changes</h1>
+      <app-diaper-changes
+        [date]="date"
+        [diaperChanges]="details.diaperChanges"
+      ></app-diaper-changes>
+    </ng-container>
+  </div>
+  <ng-template #none>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
+      <h1>No feedings for this date!</h1>
+    </div>
+  </ng-template>
+</div>

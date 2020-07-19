@@ -1,0 +1,32 @@
+<mat-table [dataSource]="diaperChanges">
+  <ng-container matColumnDef="time">
+    <mat-header-cell *matHeaderCellDef>Time</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{ row.time | date: 'short' }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="pee">
+    <mat-header-cell *matHeaderCellDef>Pee</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{ row.pee ? 'Yes' : 'No' }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="poo">
+    <mat-header-cell *matHeaderCellDef>Poo</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{ row.poo ? 'Yes' : 'No' }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let row" fxLayoutAlign="end">
+      <button mat-icon-button (click)="removeDiaperChange(row.id)">
+        <mat-icon svgIcon="delete"></mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row
+    *matHeaderRowDef="['time', 'pee', 'poo', 'delete']"
+  ></mat-header-row>
+  <mat-row
+    *matRowDef="let row; columns: ['time', 'pee', 'poo', 'delete']"
+  ></mat-row>
+</mat-table>

@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Feeding</h1>
+<mat-dialog-content fxFlex="auto">
+  <div fxLayout="column" fxLayoutGap="1em">
+    <label id="feedingType">How did you feed them?</label>
+    <mat-radio-group [formControl]="feedingType" aria-labelledby="feedingType">
+      <mat-radio-button value="breast">Breast</mat-radio-button>
+      <mat-radio-button value="bottle">Bottle</mat-radio-button>
+    </mat-radio-group>
+    <ng-container *ngIf="feedingType.value === 'breast'">
+      <label id="side"
+        >Which side are you breast feeding from?
+        <span *ngIf="lastSide$ | async as lastSide">
+          Last side was {{ lastSide | side }}</span
+        ></label
+      >
+      <mat-radio-group [formControl]="side" aria-labelledby="side">
+        <mat-radio-button value="left">Left</mat-radio-button>
+        <mat-radio-button value="right">Right</mat-radio-button>
+      </mat-radio-group>
+    </ng-container>
+    <ng-container *ngIf="feedingType.value === 'bottle'">
+      <mat-form-field>
+        <mat-label class="required">Amount</mat-label>
+        <input matInput type="number" [formControl]="amount" />
+      </mat-form-field>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" type="button" mat-dialog-close>
+    Close
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="feedingType.invalid"
+    (click)="submit()"
+  >
+    {{
+      !feedingType.value
+        ? 'Save'
+        : feedingType.value === 'breast'
+        ? 'Start'
+        : 'Save'
+    }}
+  </button>
+</mat-dialog-actions>

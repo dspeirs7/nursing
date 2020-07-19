@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutGap="1em">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <div fxLayout="row" fxLayoutGap="1em">
+      <a
+        mat-raised-button
+        color="accent"
+        *ngFor="let day of days$ | async"
+        [routerLink]="['/day', day]"
+      >
+        {{ day | date }}
+      </a>
+    </div>
+  </div>
+</div>

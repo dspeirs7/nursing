@@ -1,0 +1,24 @@
+<mat-toolbar color="primary">
+  <mat-icon svgIcon="child"></mat-icon>
+  <!-- <a mat-button routerLink="/">
+    <mat-icon svgIcon="child"></mat-icon>
+    Nursing Tracking</a
+  > -->
+  <span fxFlex="1 1 auto"></span>
+  <!-- <button mat-button [matMenuTriggerFor]="menu">Log</button>
+  <mat-menu #menu="matMenu"> -->
+  <button mat-button (click)="handleDiaperChange()">
+    Diaper Change
+  </button>
+  <ng-container *ngIf="feedingStarted$ | async; else start">
+    <button mat-button (click)="stopBreastFeeding()">
+      Stop Feeding
+    </button>
+  </ng-container>
+  <ng-template #start>
+    <button mat-button (click)="handleFeeding()">
+      Start Feeding
+    </button>
+  </ng-template>
+  <!-- </mat-menu> -->
+</mat-toolbar>

@@ -1,0 +1,29 @@
+<h1 mat-dialog-title>Diaper Change</h1>
+<mat-dialog-content [formGroup]="diaperChangeForm">
+  <div fxLayout="column" fxLayoutGap="1em">
+    <mat-checkbox
+      [checked]="allComplete"
+      [indeterminate]="someCompleted()"
+      (change)="setAll($event.checked)"
+      >Both</mat-checkbox
+    >
+    <ul>
+      <li>
+        <mat-checkbox formControlName="pee" (change)="updateAllCompleted()"
+          >Pee</mat-checkbox
+        >
+      </li>
+      <li>
+        <mat-checkbox formControlName="poo" (change)="updateAllCompleted()"
+          >Poo</mat-checkbox
+        >
+      </li>
+    </ul>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" type="button" mat-dialog-close>
+    Close
+  </button>
+  <button mat-raised-button color="primary" (click)="submit()">Save</button>
+</mat-dialog-actions>
