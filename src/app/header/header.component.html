@@ -1,12 +1,8 @@
 <mat-toolbar color="primary">
-  <mat-icon svgIcon="child"></mat-icon>
-  <!-- <a mat-button routerLink="/">
+  <a mat-icon-button routerLink="/">
     <mat-icon svgIcon="child"></mat-icon>
-    Nursing Tracking</a
-  > -->
+  </a>
   <span fxFlex="1 1 auto"></span>
-  <!-- <button mat-button [matMenuTriggerFor]="menu">Log</button>
-  <mat-menu #menu="matMenu"> -->
   <button mat-button (click)="handleDiaperChange()">
     Diaper Change
   </button>
@@ -20,5 +16,4 @@
       Start Feeding
     </button>
   </ng-template>
-  <!-- </mat-menu> -->
 </mat-toolbar>
