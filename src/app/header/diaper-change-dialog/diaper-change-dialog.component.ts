@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { NursingService } from 'src/app/state/nursing.service';
 import * as moment from 'moment';
 import { MatDialogRef } from '@angular/material/dialog';
+import { TrackerService } from 'src/app/nursing/state/tracker.service';
 
 @Component({
   selector: 'app-diaper-change-dialog',
@@ -17,7 +17,7 @@ export class DiaperChangeDialogComponent implements OnInit {
   });
 
   constructor(
-    private nursingService: NursingService,
+    private trackerService: TrackerService,
     private dialogRef: MatDialogRef<DiaperChangeDialogComponent>
   ) {}
 
@@ -46,9 +46,9 @@ export class DiaperChangeDialogComponent implements OnInit {
     });
   }
 
-  submit() {
-    this.nursingService.addDiaperChange({
-      time: moment(),
+  async submit() {
+    await this.trackerService.addDiaperChange({
+      time: moment().toISOString(),
       ...this.diaperChangeForm.value
     });
 

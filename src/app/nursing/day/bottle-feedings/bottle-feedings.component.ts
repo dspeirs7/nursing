@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { BottleFeeding } from 'src/app/state/nursing.model';
-import { NursingService } from 'src/app/state/nursing.service';
+import { BottleFeeding } from '../../state/tracker.model';
+import { TrackerService } from '../../state/tracker.service';
 
 @Component({
   selector: 'app-bottle-feedings',
@@ -11,9 +11,9 @@ export class BottleFeedingsComponent {
   @Input() date: string;
   @Input() bottleFeedings: BottleFeeding[];
 
-  constructor(private nursingService: NursingService) {}
+  constructor(private trackerService: TrackerService) {}
 
-  removeBottleFeeding(id: number) {
-    this.nursingService.removeBottleFeeding(this.date, id);
+  async removeBottleFeeding(id: number) {
+    await this.trackerService.removeBottleFeeding(this.date, id);
   }
 }

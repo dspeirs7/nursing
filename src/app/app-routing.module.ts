@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DaysListComponent } from './days-list/days-list.component';
-import { DayComponent } from './day/day.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'days',
-    component: DaysListComponent
+    path: 'nursing',
+    loadChildren: () =>
+      import('./nursing/nursing.module').then(m => m.NursingModule),
+    canActivate: [AuthGuard]
   },
-  {
-    path: 'day/:id',
-    component: DayComponent
-  },
-  { path: '', pathMatch: 'full', redirectTo: 'days' },
-  { path: '**', redirectTo: 'days' }
+  { path: 'login', component: UnauthorizedComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'nursing' },
+  { path: '**', redirectTo: 'nursing' }
 ];
 
 @NgModule({

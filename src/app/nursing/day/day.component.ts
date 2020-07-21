@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NursingQuery } from '../state/nursing.query';
-import { Nursing } from '../state/nursing.model';
 import { ActivatedRoute } from '@angular/router';
+import { Tracker } from '../state/tracker.model';
+import { TrackerQuery } from '../state/tracker.query';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-day',
@@ -11,15 +12,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DayComponent implements OnInit {
   date: string;
-  details$: Observable<Nursing>;
+  tracker$: Observable<Tracker>;
 
-  constructor(
-    private nursingQuery: NursingQuery,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private query: TrackerQuery, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.details$ = this.nursingQuery.details$;
+    this.tracker$ = this.query.tracker$;
 
     this.route.paramMap.subscribe(params => {
       this.date = params.get('id');

@@ -1,37 +1,37 @@
 <div fxLayout="column" fxLayoutGap="1em" class="details">
   <div fxlayout="row">
-    <a mat-raised-button routerLink="/days">Back</a>
+    <a mat-raised-button routerLink="/nursing">Back</a>
   </div>
   <div
     fxLayout="column"
     fxLayoutGap="1em"
-    *ngIf="details$ | async as details; else none"
+    *ngIf="tracker$ | async as tracker; else none"
   >
-    <ng-container *ngIf="details.breastFeedings?.length">
+    <ng-container *ngIf="tracker.breastFeedings?.length">
       <h1>Breast Feedings</h1>
       <app-breast-feedings
         [date]="date"
-        [breastFeedings]="details.breastFeedings"
+        [breastFeedings]="tracker.breastFeedings || []"
       ></app-breast-feedings>
     </ng-container>
-    <ng-container *ngIf="details.bottleFeedings?.length">
+    <ng-container *ngIf="tracker.bottleFeedings?.length">
       <h1>Bottle Feedings</h1>
       <app-bottle-feedings
         [date]="date"
-        [bottleFeedings]="details.bottleFeedings"
+        [bottleFeedings]="tracker.bottleFeedings || []"
       ></app-bottle-feedings>
     </ng-container>
-    <ng-container *ngIf="details.diaperChanges?.length">
+    <ng-container *ngIf="tracker.diaperChanges?.length">
       <h1>Diaper Changes</h1>
       <app-diaper-changes
         [date]="date"
-        [diaperChanges]="details.diaperChanges"
+        [diaperChanges]="tracker.diaperChanges || []"
       ></app-diaper-changes>
     </ng-container>
   </div>
   <ng-template #none>
     <div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-      <h1>No feedings for this date!</h1>
+      <h1>No data for this date!</h1>
     </div>
   </ng-template>
 </div>

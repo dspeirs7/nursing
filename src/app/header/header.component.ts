@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DiaperChangeDialogComponent } from './diaper-change-dialog/diaper-change-dialog.component';
 import { FeedingDialogComponent } from './feeding-dialog/feeding-dialog.component';
-import { NursingQuery } from '../state/nursing.query';
 import { Observable } from 'rxjs';
-import { NursingService } from '../state/nursing.service';
+import { AuthService } from '../auth/auth.service';
+import { TrackerQuery } from '../nursing/state/tracker.query';
+import { TrackerService } from '../nursing/state/tracker.service';
 
 @Component({
   selector: 'app-header',
@@ -12,16 +13,19 @@ import { NursingService } from '../state/nursing.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  user$: Observable<firebase.User>;
   feedingStarted$: Observable<boolean>;
 
   constructor(
-    private nursingQuery: NursingQuery,
-    private nursingService: NursingService,
+    private authService: AuthService,
+    private trackerQuery: TrackerQuery,
+    private trackerService: TrackerService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.feedingStarted$ = this.nursingQuery.feedingStarted$;
+    this.user$ = this.authService.getUser();
+    this.feedingStarted$ = this.trackerQuery.feedingStarted$;
   }
 
   handleDiaperChange() {
@@ -36,7 +40,15 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  stopBreastFeeding() {
-    this.nursingService.stopBreastFeeding();
+  async stopBreastFeeding() {
+    await this.trackerService.stopBreastFeeding();
+  }
+
+  signinWithGoogle() {
+    this.authService.signinWithGoogle();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

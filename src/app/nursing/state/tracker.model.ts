@@ -1,6 +1,4 @@
-import * as moment from 'moment';
-
-export interface Nursing {
+export interface Tracker {
   id: string;
   breastFeedings: BreastFeeding[];
   bottleFeedings: BottleFeeding[];
@@ -10,25 +8,30 @@ export interface Nursing {
 export interface BreastFeeding {
   id: number;
   side: Side;
-  startTime: moment.Moment;
-  endTime: moment.Moment;
+  startTime: string;
+  endTime: string;
 }
 
 export interface BottleFeeding {
   id: number;
-  time: moment.Moment;
+  time: string;
   amount: number;
 }
 
 export interface DiaperChange {
   id: number;
-  time: moment.Moment;
+  time: string;
   pee: boolean;
   poo: boolean;
 }
 
 export type Side = 'left' | 'right';
 
-export function createNursing(params: Partial<Nursing>) {
-  return {} as Nursing;
+export function createTracker(params: Partial<Tracker>) {
+  return {
+    id: params.id,
+    bottleFeedings: params.bottleFeedings || [],
+    breastFeedings: params.breastFeedings || [],
+    diaperChanges: params.diaperChanges || []
+  } as Tracker;
 }

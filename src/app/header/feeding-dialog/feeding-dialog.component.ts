@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { NursingQuery } from 'src/app/state/nursing.query';
 import { Observable } from 'rxjs';
-import { Side } from 'src/app/state/nursing.model';
 import { tap } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material/dialog';
-import { NursingService } from 'src/app/state/nursing.service';
 import * as moment from 'moment';
+import { TrackerQuery } from 'src/app/nursing/state/tracker.query';
+import { TrackerService } from 'src/app/nursing/state/tracker.service';
+import { Side } from 'src/app/nursing/state/tracker.model';
 
 @Component({
   selector: 'app-feeding-dialog',
@@ -20,13 +20,13 @@ export class FeedingDialogComponent implements OnInit {
   amount = new FormControl(null, [Validators.required, Validators.min(1)]);
 
   constructor(
-    private nursingQuery: NursingQuery,
-    private nursingService: NursingService,
+    private trackerQuery: TrackerQuery,
+    private trackerService: TrackerService,
     private dialogRef: MatDialogRef<FeedingDialogComponent>
   ) {}
 
   ngOnInit(): void {
-    this.lastSide$ = this.nursingQuery.lastSide$.pipe(
+    this.lastSide$ = this.trackerQuery.lastSide$.pipe(
       tap(lastSide => {
         if (lastSide) {
           this.side.patchValue(lastSide === 'left' ? 'right' : 'left');
@@ -35,18 +35,18 @@ export class FeedingDialogComponent implements OnInit {
     );
   }
 
-  submit() {
+  async submit() {
     switch (this.feedingType.value) {
       case 'breast':
         if (this.side.valid) {
-          this.nursingService.startBreastFeeding(this.side.value);
+          this.trackerService.startBreastFeeding(this.side.value);
           this.dialogRef.close();
         }
         break;
       case 'bottle':
         if (this.amount.valid) {
-          this.nursingService.addBottleFeeding({
-            time: moment(),
+          await this.trackerService.addBottleFeeding({
+            time: moment().toISOString(),
             amount: this.amount.value
           });
         }

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { DiaperChange } from 'src/app/state/nursing.model';
-import { NursingService } from 'src/app/state/nursing.service';
+import { TrackerService } from '../../state/tracker.service';
+import { DiaperChange } from '../../state/tracker.model';
 
 @Component({
   selector: 'app-diaper-changes',
@@ -11,9 +11,9 @@ export class DiaperChangesComponent {
   @Input() date: string;
   @Input() diaperChanges: DiaperChange[];
 
-  constructor(private nursingService: NursingService) {}
+  constructor(private trackerService: TrackerService) {}
 
-  removeDiaperChange(id: number) {
-    this.nursingService.removeDiaperChange(this.date, id);
+  async removeDiaperChange(id: number) {
+    await this.trackerService.removeDiaperChange(this.date, id);
   }
 }

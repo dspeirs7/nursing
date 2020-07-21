@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 })
 export class AppComponent implements OnInit {
   constructor(
+    private authService: AuthService,
     private sanitzer: DomSanitizer,
     private iconRegistry: MatIconRegistry
   ) {}

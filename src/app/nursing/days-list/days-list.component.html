@@ -1,0 +1,26 @@
+<div
+  fxLayout="column"
+  fxLayoutGap="1em"
+  fxFlexFill
+  *ngIf="{ days: days$ | async } as data"
+>
+  <div
+    fxLayout="row wrap"
+    fxLayoutGap="1em"
+    *ngIf="data.days.length; else addData"
+  >
+    <a
+      mat-raised-button
+      color="accent"
+      *ngFor="let day of data.days"
+      [routerLink]="[day]"
+    >
+      {{ day | date }}
+    </a>
+  </div>
+  <ng-template #addData>
+    <div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
+      <h1>Start recording data!</h1>
+    </div>
+  </ng-template>
+</div>

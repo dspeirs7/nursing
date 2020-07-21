@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "nursing-1d9b7"
+  },
+  "targets": {
+    "nursing-1d9b7": {
+      "hosting": {
+        "nursing": [
+          "nursing-1d9b7"
+        ]
+      }
+    }
   }
 }

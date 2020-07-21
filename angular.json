@@ -31,7 +31,15 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "@firebase/util",
+              "@firebase/component",
+              "@firebase/auth",
+              "@firebase/firestore",
+              "@firebase/app",
+              "firebase/app"
+            ]
           },
           "configurations": {
             "production": {
@@ -126,6 +134,10 @@
               "devServerTarget": "nursing:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }

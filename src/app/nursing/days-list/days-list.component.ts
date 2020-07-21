@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NursingQuery } from '../state/nursing.query';
+import { TrackerQuery } from '../state/tracker.query';
 
 @Component({
   selector: 'app-days-list',
@@ -10,9 +10,9 @@ import { NursingQuery } from '../state/nursing.query';
 export class DaysListComponent implements OnInit {
   days$: Observable<string[]>;
 
-  constructor(private nursingQuery: NursingQuery) {}
+  constructor(private query: TrackerQuery) {}
 
   ngOnInit(): void {
-    this.days$ = this.nursingQuery.days$;
+    this.days$ = this.query.days$;
   }
 }

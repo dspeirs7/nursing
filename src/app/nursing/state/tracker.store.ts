@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Nursing, BreastFeeding } from './nursing.model';
+import { Tracker, BreastFeeding } from './tracker.model';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
+import { AngularFirestore } from '@angular/fire/firestore';
 
-export interface NursingState extends EntityState<Nursing> {
+export interface TrackerState extends EntityState<Tracker> {
   ui: {
     breastFeeding: Partial<BreastFeeding>;
   };
@@ -14,7 +15,7 @@ const initialState = {
 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'nursing' })
-export class NursingStore extends EntityStore<NursingState> {
+export class TrackerStore extends EntityStore<TrackerState> {
   constructor() {
     super(initialState);
   }

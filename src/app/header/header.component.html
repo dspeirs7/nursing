@@ -3,17 +3,23 @@
     <mat-icon svgIcon="child"></mat-icon>
   </a>
   <span fxFlex="1 1 auto"></span>
-  <button mat-button (click)="handleDiaperChange()">
-    Diaper Change
-  </button>
-  <ng-container *ngIf="feedingStarted$ | async; else start">
-    <button mat-button (click)="stopBreastFeeding()">
-      Stop Feeding
+  <ng-container *ngIf="user$ | async; else login">
+    <button mat-button (click)="handleDiaperChange()">
+      Diaper Change
     </button>
+    <ng-container *ngIf="feedingStarted$ | async; else start">
+      <button mat-button (click)="stopBreastFeeding()">
+        Stop Feeding
+      </button>
+    </ng-container>
+    <ng-template #start>
+      <button mat-button (click)="handleFeeding()">
+        Start Feeding
+      </button>
+    </ng-template>
+    <button mat-button (click)="logout()">Logout</button>
   </ng-container>
-  <ng-template #start>
-    <button mat-button (click)="handleFeeding()">
-      Start Feeding
-    </button>
+  <ng-template #login>
+    <button mat-button (click)="signinWithGoogle()">Sign In</button>
   </ng-template>
 </mat-toolbar>

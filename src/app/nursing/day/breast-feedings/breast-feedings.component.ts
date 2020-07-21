@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { BreastFeeding } from 'src/app/state/nursing.model';
-import { NursingService } from 'src/app/state/nursing.service';
+import { TrackerService } from '../../state/tracker.service';
+import { BreastFeeding } from '../../state/tracker.model';
 
 @Component({
   selector: 'app-breast-feedings',
@@ -11,9 +11,9 @@ export class BreastFeedingsComponent {
   @Input() date: string;
   @Input() breastFeedings: BreastFeeding[];
 
-  constructor(private nursingService: NursingService) {}
+  constructor(private trackerService: TrackerService) {}
 
-  removeBreastFeeding(id: number) {
-    this.nursingService.removeBreastFeeding(this.date, id);
+  async removeBreastFeeding(id: number) {
+    await this.trackerService.removeBreastFeeding(this.date, id);
   }
 }
