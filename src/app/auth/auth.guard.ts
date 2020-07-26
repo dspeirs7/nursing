@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate, CanLoad {
 
   canActivate(
     _next: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
+    state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.service.getUser().pipe(
       map(user => {
@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate, CanLoad {
           return true;
         }
 
-        this.service.redirectUrl = _state?.url || '/';
+        this.service.redirectUrl = state?.url || '/';
 
         return this.router.createUrlTree(['/login']);
       })
