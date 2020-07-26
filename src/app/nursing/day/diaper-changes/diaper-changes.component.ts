@@ -1,19 +1,35 @@
-import { Component, Input } from '@angular/core';
-import { TrackerService } from '../../state/tracker.service';
-import { DiaperChange } from '../../state/tracker.model';
+import { Component, Input, OnInit } from '@angular/core';
+import { DiaperChangeService } from '../../state/diaper-change.service';
+import { DiaperChangeQuery } from '../../state/diaper-change.query';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { DiaperChange } from '../../state/diaper-change.model';
+import { Observable } from 'rxjs';
 
+@UntilDestroy()
 @Component({
   selector: 'app-diaper-changes',
   templateUrl: './diaper-changes.component.html',
   styleUrls: ['./diaper-changes.component.scss']
 })
-export class DiaperChangesComponent {
+export class DiaperChangesComponent implements OnInit {
   @Input() date: string;
-  @Input() diaperChanges: DiaperChange[];
+  diaperChanges$: Observable<DiaperChange[]>;
 
-  constructor(private trackerService: TrackerService) {}
+  constructor(
+    private diaperChangeService: DiaperChangeService,
+    private diaperChangeQuery: DiaperChangeQuery
+  ) {}
 
-  async removeDiaperChange(id: number) {
-    await this.trackerService.removeDiaperChange(this.date, id);
+  ngOnInit(): void {
+    this.diaperChangeService
+      .syncCollection(ref => ref.where('date', '==', this.date))
+      .pipe(untilDestroyed(this))
+      .subscribe();
+
+    this.diaperChanges$ = this.diaperChangeQuery.selectAll();
+  }
+
+  removeDiaperChange(id: string) {
+    this.diaperChangeService.remove(id);
   }
 }

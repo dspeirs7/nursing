@@ -2,36 +2,9 @@
   <div fxlayout="row">
     <a mat-raised-button routerLink="/nursing">Back</a>
   </div>
-  <div
-    fxLayout="column"
-    fxLayoutGap="1em"
-    *ngIf="tracker$ | async as tracker; else none"
-  >
-    <ng-container *ngIf="tracker.breastFeedings?.length">
-      <h1>Breast Feedings</h1>
-      <app-breast-feedings
-        [date]="date"
-        [breastFeedings]="tracker.breastFeedings || []"
-      ></app-breast-feedings>
-    </ng-container>
-    <ng-container *ngIf="tracker.bottleFeedings?.length">
-      <h1>Bottle Feedings</h1>
-      <app-bottle-feedings
-        [date]="date"
-        [bottleFeedings]="tracker.bottleFeedings || []"
-      ></app-bottle-feedings>
-    </ng-container>
-    <ng-container *ngIf="tracker.diaperChanges?.length">
-      <h1>Diaper Changes</h1>
-      <app-diaper-changes
-        [date]="date"
-        [diaperChanges]="tracker.diaperChanges || []"
-      ></app-diaper-changes>
-    </ng-container>
+  <div fxLayout="column" fxLayoutGap="1em">
+    <app-breast-feedings [date]="date"></app-breast-feedings>
+    <app-bottle-feedings [date]="date"></app-bottle-feedings>
+    <app-diaper-changes [date]="date"></app-diaper-changes>
   </div>
-  <ng-template #none>
-    <div fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-      <h1>No data for this date!</h1>
-    </div>
-  </ng-template>
 </div>

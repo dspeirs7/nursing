@@ -4,8 +4,8 @@ import { DiaperChangeDialogComponent } from './diaper-change-dialog/diaper-chang
 import { FeedingDialogComponent } from './feeding-dialog/feeding-dialog.component';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { TrackerQuery } from '../nursing/state/tracker.query';
-import { TrackerService } from '../nursing/state/tracker.service';
+import { BreastFeedingQuery } from '../nursing/state/breast-feeding.query';
+import { BreastFeedingService } from '../nursing/state/breast-feeding.service';
 
 @Component({
   selector: 'app-header',
@@ -18,14 +18,14 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private trackerQuery: TrackerQuery,
-    private trackerService: TrackerService,
+    private breastFeedingQuery: BreastFeedingQuery,
+    private breastFeedingService: BreastFeedingService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.user$ = this.authService.getUser();
-    this.feedingStarted$ = this.trackerQuery.feedingStarted$;
+    this.feedingStarted$ = this.breastFeedingQuery.feedingStarted$;
   }
 
   handleDiaperChange() {
@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
   }
 
   async stopBreastFeeding() {
-    await this.trackerService.stopBreastFeeding();
+    await this.breastFeedingService.stopBreastFeeding();
   }
 
   signinWithGoogle() {

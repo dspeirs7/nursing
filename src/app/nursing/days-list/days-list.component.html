@@ -13,9 +13,9 @@
       mat-raised-button
       color="accent"
       *ngFor="let day of data.days"
-      [routerLink]="[day]"
+      [routerLink]="[day.date]"
     >
-      {{ day | date }}
+      {{ day.date | date }}
     </a>
   </div>
   <ng-template #addData>

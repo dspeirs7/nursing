@@ -1,19 +1,34 @@
-import { Component, Input } from '@angular/core';
-import { BottleFeeding } from '../../state/tracker.model';
-import { TrackerService } from '../../state/tracker.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { BottleFeedingService } from '../../state/bottle-feeding.service';
+import { BottleFeedingQuery } from '../../state/bottle-feeding.query';
+import { Observable } from 'rxjs';
+import { BottleFeeding } from '../../state/bottle-feeding.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-bottle-feedings',
   templateUrl: './bottle-feedings.component.html',
   styleUrls: ['./bottle-feedings.component.scss']
 })
-export class BottleFeedingsComponent {
+export class BottleFeedingsComponent implements OnInit {
   @Input() date: string;
-  @Input() bottleFeedings: BottleFeeding[];
+  bottleFeedings$: Observable<BottleFeeding[]>;
 
-  constructor(private trackerService: TrackerService) {}
+  constructor(
+    private bottleFeedingService: BottleFeedingService,
+    private bottleFeedingQuery: BottleFeedingQuery
+  ) {}
 
-  async removeBottleFeeding(id: number) {
-    await this.trackerService.removeBottleFeeding(this.date, id);
+  ngOnInit(): void {
+    this.bottleFeedingService
+      .syncCollection(ref => ref.where('date', '==', this.date))
+      .pipe(untilDestroyed(this))
+      .subscribe();
+    this.bottleFeedings$ = this.bottleFeedingQuery.selectAll();
+  }
+
+  removeBottleFeeding(id: string) {
+    this.bottleFeedingService.remove(id);
   }
 }

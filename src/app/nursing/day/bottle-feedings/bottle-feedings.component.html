@@ -1,31 +1,40 @@
-<mat-table [dataSource]="bottleFeedings">
-  <ng-container matColumnDef="time">
-    <mat-header-cell *matHeaderCellDef>Time</mat-header-cell>
-    <mat-cell *matCellDef="let row">{{ row.time | date: 'short' }}</mat-cell>
-  </ng-container>
+<ng-container *ngIf="bottleFeedings$ | async as bottleFeedings">
+  <h1>Bottle Feedings</h1>
+  <mat-table
+    [dataSource]="bottleFeedings"
+    *ngIf="bottleFeedings.length; else noData"
+  >
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef>Time</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.time | date: 'short' }}</mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="amount">
-    <mat-header-cell *matHeaderCellDef fxLayoutAlign="center center"
-      >Amount (ml)</mat-header-cell
-    >
-    <mat-cell *matCellDef="let row" fxLayoutAlign="center center">{{
-      row.amount
-    }}</mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef fxLayoutAlign="center center"
+        >Amount (ml)</mat-header-cell
+      >
+      <mat-cell *matCellDef="let row" fxLayoutAlign="center center">{{
+        row.amount
+      }}</mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="delete">
-    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-    <mat-cell *matCellDef="let row" fxLayoutAlign="end">
-      <button mat-icon-button (click)="removeBottleFeeding(row.id)">
-        <mat-icon svgIcon="delete"></mat-icon>
-      </button>
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row" fxLayoutAlign="end">
+        <button mat-icon-button (click)="removeBottleFeeding(row.id)">
+          <mat-icon svgIcon="delete"></mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
 
-  <mat-header-row
-    *matHeaderRowDef="['time', 'amount', 'delete']"
-  ></mat-header-row>
-  <mat-row
-    *matRowDef="let row; columns: ['time', 'amount', 'delete']"
-  ></mat-row>
-</mat-table>
+    <mat-header-row
+      *matHeaderRowDef="['time', 'amount', 'delete']"
+    ></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: ['time', 'amount', 'delete']"
+    ></mat-row>
+  </mat-table>
+  <ng-template #noData>
+    <h3>No data for this date!</h3>
+  </ng-template>
+</ng-container>

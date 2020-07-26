@@ -1,19 +1,35 @@
-import { Component, Input } from '@angular/core';
-import { TrackerService } from '../../state/tracker.service';
-import { BreastFeeding } from '../../state/tracker.model';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BreastFeedingService } from '../../state/breast-feeding.service';
+import { BreastFeedingQuery } from '../../state/breast-feeding.query';
+import { BreastFeeding } from '../../state/breast-feeding.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-breast-feedings',
   templateUrl: './breast-feedings.component.html',
   styleUrls: ['./breast-feedings.component.scss']
 })
-export class BreastFeedingsComponent {
+export class BreastFeedingsComponent implements OnInit {
   @Input() date: string;
-  @Input() breastFeedings: BreastFeeding[];
+  breastFeedings$: Observable<BreastFeeding[]>;
 
-  constructor(private trackerService: TrackerService) {}
+  constructor(
+    private breastFeedingService: BreastFeedingService,
+    private breastFeedingQuery: BreastFeedingQuery
+  ) {}
 
-  async removeBreastFeeding(id: number) {
-    await this.trackerService.removeBreastFeeding(this.date, id);
+  ngOnInit(): void {
+    this.breastFeedingService
+      .syncCollection(ref => ref.where('date', '==', this.date))
+      .pipe(untilDestroyed(this))
+      .subscribe();
+
+    this.breastFeedings$ = this.breastFeedingQuery.selectAll();
+  }
+
+  removeBreastFeeding(id: string) {
+    this.breastFeedingService.remove(id);
   }
 }

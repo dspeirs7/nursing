@@ -25,6 +25,8 @@
     "@angular/router": "~10.0.4",
     "@angular/service-worker": "~10.0.4",
     "@datorama/akita": "4.22.0",
+    "@ngneat/until-destroy": "^7.3.2",
+    "akita-ng-fire": "^1.0.0",
     "firebase": "^7.13.1",
     "moment": "^2.27.0",
     "rxjs": "~6.6.0",

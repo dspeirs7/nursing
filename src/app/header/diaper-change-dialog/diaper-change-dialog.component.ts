@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { MatDialogRef } from '@angular/material/dialog';
-import { TrackerService } from 'src/app/nursing/state/tracker.service';
+import { DiaperChangeService } from 'src/app/nursing/state/diaper-change.service';
+import { DATE_FORMAT } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-diaper-change-dialog',
@@ -17,7 +18,7 @@ export class DiaperChangeDialogComponent implements OnInit {
   });
 
   constructor(
-    private trackerService: TrackerService,
+    private diaperChangeService: DiaperChangeService,
     private dialogRef: MatDialogRef<DiaperChangeDialogComponent>
   ) {}
 
@@ -47,8 +48,11 @@ export class DiaperChangeDialogComponent implements OnInit {
   }
 
   async submit() {
-    await this.trackerService.addDiaperChange({
-      time: moment().toISOString(),
+    const date = moment();
+
+    await this.diaperChangeService.add({
+      date: date.format(DATE_FORMAT),
+      time: date.toISOString(),
       ...this.diaperChangeForm.value
     });
 
