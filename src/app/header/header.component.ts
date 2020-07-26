@@ -40,8 +40,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  async stopBreastFeeding() {
-    await this.breastFeedingService.stopBreastFeeding();
+  stopBreastFeeding() {
+    this.breastFeedingService.stopBreastFeeding();
   }
 
   signinWithGoogle() {

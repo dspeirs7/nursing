@@ -47,10 +47,10 @@ export class DiaperChangeDialogComponent implements OnInit {
     });
   }
 
-  async submit() {
+  submit() {
     const date = moment();
 
-    await this.diaperChangeService.add({
+    this.diaperChangeService.add({
       date: date.format(DATE_FORMAT),
       time: date.toISOString(),
       ...this.diaperChangeForm.value

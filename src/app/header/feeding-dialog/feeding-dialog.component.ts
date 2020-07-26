@@ -50,7 +50,7 @@ export class FeedingDialogComponent implements OnInit {
     );
   }
 
-  async submit() {
+  submit() {
     switch (this.feedingType.value) {
       case 'breast':
         if (this.side.valid) {
@@ -61,7 +61,7 @@ export class FeedingDialogComponent implements OnInit {
       case 'bottle':
         if (this.amount.valid) {
           const date = moment();
-          await this.bottleFeedingService.add({
+          this.bottleFeedingService.add({
             date: date.format(DATE_FORMAT),
             time: date.toISOString(),
             amount: this.amount.value
