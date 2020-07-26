@@ -11,11 +11,19 @@
 
     <ng-container matColumnDef="amount">
       <mat-header-cell *matHeaderCellDef fxLayoutAlign="center center"
-        >Amount (ml)</mat-header-cell
+        >Amount</mat-header-cell
       >
-      <mat-cell *matCellDef="let row" fxLayoutAlign="center center">{{
-        row.amount
-      }}</mat-cell>
+      <mat-cell *matCellDef="let row" fxLayoutAlign="center center">
+        <ng-container *ngIf="row.amount.oz">
+          {{ row.amount.oz }} ounces
+        </ng-container>
+        <ng-container *ngIf="row.amount.oz && row.amount.ml">
+          ,
+        </ng-container>
+        <ng-container *ngIf="row.amount.ml">
+          {{ row.amount.ml }} milliliters
+        </ng-container>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="delete">

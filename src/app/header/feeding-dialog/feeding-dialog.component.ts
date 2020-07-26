@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import {
+  FormControl,
+  Validators,
+  FormGroup,
+  ValidationErrors
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -20,7 +25,13 @@ export class FeedingDialogComponent implements OnInit {
   lastSide$: Observable<Side>;
   feedingType = new FormControl(null, Validators.required);
   side = new FormControl(null, Validators.required);
-  amount = new FormControl(null, [Validators.required, Validators.min(1)]);
+  amount = new FormGroup(
+    {
+      oz: new FormControl(null),
+      ml: new FormControl(null)
+    },
+    this.atLeastOne('oz', 'ml')
+  );
 
   constructor(
     private bottleFeedingService: BottleFeedingService,
@@ -59,5 +70,16 @@ export class FeedingDialogComponent implements OnInit {
         this.dialogRef.close();
         break;
     }
+  }
+
+  atLeastOne(...fields: string[]) {
+    return (formGroup: FormGroup): ValidationErrors | null => {
+      return fields.some(field => {
+        const value = formGroup.get(field).value;
+        return value && value > 0;
+      })
+        ? null
+        : { atLeastOne: 'At least one value must be provided.' };
+    };
   }
 }

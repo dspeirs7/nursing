@@ -18,10 +18,17 @@
         <mat-radio-button value="right">Right</mat-radio-button>
       </mat-radio-group>
     </ng-container>
-    <ng-container *ngIf="feedingType.value === 'bottle'">
+    <ng-container *ngIf="feedingType.value === 'bottle'" [formGroup]="amount">
+      <h3>Amount</h3>
       <mat-form-field>
-        <mat-label class="required">Amount</mat-label>
-        <input matInput type="number" [formControl]="amount" />
+        <!-- <mat-label class="required">Ounces</mat-label> -->
+        <input matInput type="number" formControlName="oz" />
+        <span matSuffix>oz</span>
+      </mat-form-field>
+      <mat-form-field>
+        <!-- <mat-label class="required">Milliliters</mat-label> -->
+        <input matInput type="number" formControlName="ml" />
+        <span matSuffix>ml</span>
       </mat-form-field>
     </ng-container>
   </div>
@@ -33,7 +40,9 @@
   <button
     mat-raised-button
     color="primary"
-    [disabled]="feedingType.invalid"
+    [disabled]="
+      feedingType.invalid || (feedingType.value === 'bottle' && amount.invalid)
+    "
     (click)="submit()"
   >
     {{

@@ -33,8 +33,8 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     SharedModule,
     MaterialModule,
+    AkitaNgRouterStoreModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
-    AkitaNgRouterStoreModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
     }),

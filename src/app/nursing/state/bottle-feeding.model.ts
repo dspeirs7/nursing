@@ -2,7 +2,10 @@ export interface BottleFeeding {
   id: number | string;
   date: string;
   time: string;
-  amount: number;
+  amount: {
+    oz: number;
+    ml: number;
+  };
 }
 
 export function createBottleFeeding(params: Partial<BottleFeeding>) {
