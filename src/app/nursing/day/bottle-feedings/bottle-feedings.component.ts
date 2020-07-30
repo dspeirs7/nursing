@@ -4,6 +4,7 @@ import { BottleFeedingQuery } from '../../state/bottle-feeding.query';
 import { Observable } from 'rxjs';
 import { BottleFeeding } from '../../state/bottle-feeding.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { map } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -25,7 +26,15 @@ export class BottleFeedingsComponent implements OnInit {
       .syncCollection(ref => ref.where('date', '==', this.date))
       .pipe(untilDestroyed(this))
       .subscribe();
-    this.bottleFeedings$ = this.bottleFeedingQuery.selectAll();
+    this.bottleFeedings$ = this.bottleFeedingQuery
+      .selectAll()
+      .pipe(
+        map(bottleFeedings =>
+          bottleFeedings.filter(
+            bottleFeeding => bottleFeeding.date === this.date
+          )
+        )
+      );
   }
 
   removeBottleFeeding(id: string) {

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BreastFeedingService } from '../../state/breast-feeding.service';
 import { BreastFeedingQuery } from '../../state/breast-feeding.query';
 import { BreastFeeding } from '../../state/breast-feeding.model';
@@ -26,7 +27,15 @@ export class BreastFeedingsComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe();
 
-    this.breastFeedings$ = this.breastFeedingQuery.selectAll();
+    this.breastFeedings$ = this.breastFeedingQuery
+      .selectAll()
+      .pipe(
+        map(breastFeedings =>
+          breastFeedings.filter(
+            breastFeeding => breastFeeding.date === this.date
+          )
+        )
+      );
   }
 
   removeBreastFeeding(id: string) {

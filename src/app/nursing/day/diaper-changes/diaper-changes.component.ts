@@ -4,6 +4,7 @@ import { DiaperChangeQuery } from '../../state/diaper-change.query';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DiaperChange } from '../../state/diaper-change.model';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -26,7 +27,13 @@ export class DiaperChangesComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe();
 
-    this.diaperChanges$ = this.diaperChangeQuery.selectAll();
+    this.diaperChanges$ = this.diaperChangeQuery
+      .selectAll()
+      .pipe(
+        map(diaperChanges =>
+          diaperChanges.filter(diaperChange => diaperChange.date === this.date)
+        )
+      );
   }
 
   removeDiaperChange(id: string) {
