@@ -12,7 +12,6 @@ export interface BreastFeedingState
   extends EntityState<BreastFeeding, string>,
     ActiveState<string> {
   ui: {
-    lastSide: Side;
     breastFeeding: Partial<BreastFeeding>;
   };
 }
@@ -20,7 +19,6 @@ export interface BreastFeedingState
 const initialState: BreastFeedingState = {
   active: null,
   ui: {
-    lastSide: null,
     breastFeeding: null
   }
 };

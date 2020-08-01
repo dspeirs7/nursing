@@ -48,12 +48,8 @@ export class BreastFeedingService extends CollectionService<
       this.add(newFeeding);
 
       this.store.update(state => ({
-        ui: { ...state.ui, lastSide: newFeeding.side, breastFeeding: null }
+        ui: { ...state.ui, breastFeeding: null }
       }));
     }
-  }
-
-  updateLastSide(side: Side) {
-    this.store.update(state => ({ ui: { ...state.ui, lastSide: side } }));
   }
 }
