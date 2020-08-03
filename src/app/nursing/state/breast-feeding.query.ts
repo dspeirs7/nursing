@@ -5,7 +5,11 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BreastFeedingQuery extends QueryEntity<BreastFeedingState> {
-  feedingStarted$ = this.select(state => !!state.ui.breastFeeding);
+  feedingStarted$ = this.selectAll().pipe(
+    map(breastFeedings =>
+      breastFeedings.find(breastFeeding => breastFeeding.endTime === null)
+    )
+  );
   lastSide$ = this.selectAll().pipe(
     map(
       breastFeedings =>

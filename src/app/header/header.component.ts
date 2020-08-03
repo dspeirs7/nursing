@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { BreastFeedingQuery } from '../nursing/state/breast-feeding.query';
 import { BreastFeedingService } from '../nursing/state/breast-feeding.service';
+import { BreastFeeding } from '../nursing/state/breast-feeding.model';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,7 +17,7 @@ import { BreastFeedingService } from '../nursing/state/breast-feeding.service';
 })
 export class HeaderComponent implements OnInit {
   user$: Observable<firebase.User>;
-  feedingStarted$: Observable<boolean>;
+  feedingStarted$: Observable<BreastFeeding>;
 
   constructor(
     private authService: AuthService,
@@ -25,6 +28,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.authService.getUser();
+    this.breastFeedingService
+      .syncCollection()
+      .pipe(untilDestroyed(this))
+      .subscribe();
     this.feedingStarted$ = this.breastFeedingQuery.feedingStarted$;
   }
 
@@ -40,8 +47,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  stopBreastFeeding() {
-    this.breastFeedingService.stopBreastFeeding();
+  stopBreastFeeding(breastFeeding: BreastFeeding) {
+    this.breastFeedingService.stopBreastFeeding(breastFeeding);
   }
 
   signinWithGoogle() {

@@ -7,8 +7,8 @@
     <button mat-button (click)="handleDiaperChange()">
       Diaper Change
     </button>
-    <ng-container *ngIf="feedingStarted$ | async; else start">
-      <button mat-button (click)="stopBreastFeeding()">
+    <ng-container *ngIf="feedingStarted$ | async as breastFeeding; else start">
+      <button mat-button (click)="stopBreastFeeding(breastFeeding)">
         Stop Feeding
       </button>
     </ng-container>

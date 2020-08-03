@@ -4,7 +4,7 @@ import { DateService } from '../state/date.service';
 import { DateQuery } from '../state/date.query';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Date } from '../state/date.model';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -25,6 +25,14 @@ export class DaysListComponent implements OnInit {
         finalize(() => console.log('destroyed'))
       )
       .subscribe();
-    this.days$ = this.dateQuery.selectAll();
+    this.days$ = this.dateQuery
+      .selectAll()
+      .pipe(
+        map(days =>
+          days.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          )
+        )
+      );
   }
 }

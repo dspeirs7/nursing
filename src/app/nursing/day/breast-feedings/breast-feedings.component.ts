@@ -22,11 +22,6 @@ export class BreastFeedingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.breastFeedingService
-      .syncCollection(ref => ref.where('date', '==', this.date))
-      .pipe(untilDestroyed(this))
-      .subscribe();
-
     this.breastFeedings$ = this.breastFeedingQuery
       .selectAll()
       .pipe(
