@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import { BreastFeedingService } from '../../state/breast-feeding.service';
 import { BreastFeedingQuery } from '../../state/breast-feeding.query';
 import { BreastFeeding } from '../../state/breast-feeding.model';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-@UntilDestroy()
 @Component({
   selector: 'app-breast-feedings',
   templateUrl: './breast-feedings.component.html',
@@ -26,9 +24,12 @@ export class BreastFeedingsComponent implements OnInit {
       .selectAll()
       .pipe(
         map(breastFeedings =>
-          breastFeedings.filter(
-            breastFeeding => breastFeeding.date === this.date
-          )
+          breastFeedings
+            .filter(breastFeeding => breastFeeding.date === this.date)
+            .sort(
+              (a, b) =>
+                new Date(a.endTime).getTime() - new Date(b.endTime).getTime()
+            )
         )
       );
   }

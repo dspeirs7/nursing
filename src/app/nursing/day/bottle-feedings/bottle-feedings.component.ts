@@ -30,9 +30,11 @@ export class BottleFeedingsComponent implements OnInit {
       .selectAll()
       .pipe(
         map(bottleFeedings =>
-          bottleFeedings.filter(
-            bottleFeeding => bottleFeeding.date === this.date
-          )
+          bottleFeedings
+            .filter(bottleFeeding => bottleFeeding.date === this.date)
+            .sort(
+              (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+            )
         )
       );
   }

@@ -31,7 +31,11 @@ export class DiaperChangesComponent implements OnInit {
       .selectAll()
       .pipe(
         map(diaperChanges =>
-          diaperChanges.filter(diaperChange => diaperChange.date === this.date)
+          diaperChanges
+            .filter(diaperChange => diaperChange.date === this.date)
+            .sort(
+              (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+            )
         )
       );
   }
