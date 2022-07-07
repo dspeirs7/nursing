@@ -28,7 +28,7 @@
     "@ngneat/until-destroy": "^8.0.1",
     "akita-ng-fire": "^3.0.2",
     "firebase": "^7.13.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "rxjs": "~6.6.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
